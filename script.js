@@ -31,7 +31,6 @@ document.querySelectorAll('.gallery-single-wrap img').forEach(img => {
 });
 
 /* ─── 3. 360° Spin System (36-Frame Hyundai Engine) ─── */
-const spinViewport = document.getElementById('spin-viewport');
 const spinImg      = document.getElementById('spin-img');
 const spinDial     = document.getElementById('spin-dial');
 const dialPointer  = document.querySelector('.spin-dial-pointer');
@@ -39,9 +38,6 @@ const indBtns      = document.querySelectorAll('.spin-ind-btn');
 const scpSwatches  = document.querySelectorAll('.scp-swatch');
 
 let currentAngle = 0; // Starts facing front
-let isDragging = false;
-let startX = 0;
-let baseAngle = 0;
 let activeColorFolder = 'ocean-blue';
 
 const preloadCache = {};
@@ -101,50 +97,6 @@ indBtns.forEach(btn => {
     update360View(targetAngle);
   });
 });
-
-// Viewport drag interactions
-if (spinViewport) {
-  spinViewport.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    baseAngle = currentAngle;
-    spinViewport.style.cursor = 'grabbing';
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const dx = e.clientX - startX;
-    const sensitivity = 0.72;
-    const deltaAngle = -dx * sensitivity;
-    update360View(baseAngle + deltaAngle);
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      spinViewport.style.cursor = 'grab';
-    }
-  });
-
-  // Touch Support
-  spinViewport.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    startX = e.touches[0].clientX;
-    baseAngle = currentAngle;
-  }, { passive: true });
-
-  spinViewport.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const dx = e.touches[0].clientX - startX;
-    const sensitivity = 0.72;
-    const deltaAngle = -dx * sensitivity;
-    update360View(baseAngle + deltaAngle);
-  }, { passive: true });
-
-  spinViewport.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-}
 
 // Dial controls rotation drag
 if (spinDial) {

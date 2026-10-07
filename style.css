@@ -709,21 +709,23 @@ button {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 0;
   border: 5px solid var(--navy);
   background: var(--cream);
-  padding: 40px;
+  padding: 0;
   box-shadow: 12px 12px 0 var(--navy);
   position: relative;
+  overflow: hidden;
 }
 
 .spin-color-picker {
   display: flex;
   align-items: center;
   gap: 20px;
-  border-bottom: 3px solid var(--navy);
-  padding-bottom: 20px;
+  border-bottom: 4px solid var(--navy);
+  padding: 16px 28px;
   flex-wrap: wrap;
+  background: var(--cream);
 }
 
 .scp-label {
@@ -759,10 +761,11 @@ button {
 }
 
 .spin-viewport-wrapper {
-  background: var(--navy);
-  border: 4px solid var(--black);
-  padding: 12px;
+  background: #0f1c2b;
+  padding: 0;
+  border: none;
   position: relative;
+  width: 100%;
 }
 
 .spin-viewport {
@@ -771,20 +774,20 @@ button {
   aspect-ratio: 16/9;
   background: #0f1c2b;
   overflow: hidden;
-  cursor: grab;
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.spin-viewport:active {
-  cursor: grabbing;
-}
-
 .spin-img {
-  max-width: 85%;
-  max-height: 85%;
+  width: 100%;
+  height: 100%;
+  max-width: 95%;
+  max-height: 95%;
   object-fit: contain;
+  transform: scale(1.15);
+  transform-origin: center center;
   z-index: 2;
   user-select: none;
   pointer-events: none;
@@ -797,9 +800,10 @@ button {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 30px;
-  border-top: 3px dashed var(--navy);
-  padding-top: 28px;
+  gap: 24px;
+  border-top: 4px solid var(--navy);
+  padding: 24px 28px;
+  background: var(--cream);
 }
 
 .spin-dial-outer {
@@ -830,11 +834,11 @@ button {
 }
 
 .spin-dial-pointer {
-  position: absolute;
+  position: relative;
   top: 6px;
   left: 50%;
   width: 6px;
-  height: 44px;
+  height: 40px;
   background: var(--red);
   transform-origin: bottom center;
   transform: translateX(-50%) rotate(144deg);
@@ -1289,6 +1293,46 @@ button {
   .footer-inner {
     flex-direction: column;
     gap: 36px;
+  }
+
+  .spin-color-picker {
+    justify-content: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .scp-swatches {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .spin-controls {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 16px;
+  }
+
+  .spin-dial-outer {
+    margin: 0 auto;
+  }
+
+  .spin-indicators {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .spin-ind-btn {
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    width: 100%;
   }
 }
 
