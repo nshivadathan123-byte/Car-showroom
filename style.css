@@ -386,7 +386,7 @@ button {
   position: relative;
   z-index: 2;
   filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.75));
-  transform: scale(1.08);
+  transform: scale(1.5);
   user-select: none;
   pointer-events: none;
 }
