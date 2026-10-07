@@ -1,12 +1,6 @@
 /* ── script.js — CRETA EV ── */
 
-/* ─── 1. Navbar scroll effect ─── */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
-
-/* ─── 2. Gallery tabs ─── */
+/* ─── 1. Gallery tabs ─── */
 const tabBtns = document.querySelectorAll('.tab-btn');
 const panels  = document.querySelectorAll('.gallery-panel');
 
@@ -20,7 +14,7 @@ tabBtns.forEach(btn => {
   });
 });
 
-/* ─── 3. Gallery image fallback ─── */
+/* ─── 2. Gallery image fallback ─── */
 const fallbackColors = {
   front: '#1a3a5c',
   side:  '#0d1b2a',
@@ -36,12 +30,11 @@ document.querySelectorAll('.gallery-single-wrap img').forEach(img => {
   });
 });
 
-/* ─── 4. 360° Spin System (36-Frame Hyundai Engine) ─── */
+/* ─── 3. 360° Spin System (36-Frame Hyundai Engine) ─── */
 const spinViewport = document.getElementById('spin-viewport');
 const spinImg      = document.getElementById('spin-img');
 const spinDial     = document.getElementById('spin-dial');
 const dialPointer  = document.querySelector('.spin-dial-pointer');
-const angleBadge   = document.getElementById('spin-angle-badge');
 const indBtns      = document.querySelectorAll('.spin-ind-btn');
 const scpSwatches  = document.querySelectorAll('.scp-swatch');
 
@@ -79,14 +72,6 @@ function update360View(angle) {
     spinImg.src = finalImgSrc;
   }
   
-  let direction = 'FRONT';
-  if (currentAngle >= 45 && currentAngle < 135) direction = 'LEFT PROFILE';
-  else if (currentAngle >= 135 && currentAngle < 225) direction = 'REAR';
-  else if (currentAngle >= 225 && currentAngle < 315) direction = 'RIGHT PROFILE';
-  
-  if (angleBadge) {
-    angleBadge.textContent = `ANGLE: ${currentAngle}° (${direction})`;
-  }
   
   const closestAngle = Math.round(currentAngle / 90) * 90 % 360;
   indBtns.forEach(btn => {
@@ -208,7 +193,7 @@ if (spinDial) {
 }
 
 
-/* ─── 5. Hamburger menu (mobile) ─── */
+/* ─── 4. Hamburger menu (mobile) ─── */
 const hamburger = document.getElementById('nav-hamburger');
 const navLinks  = document.getElementById('nav-links');
 
@@ -218,7 +203,7 @@ if (hamburger && navLinks) {
   });
 }
 
-/* ─── 6. Anchor link handling (auto-closes mobile navbar) ─── */
+/* ─── 5. Anchor link handling (auto-closes mobile navbar) ─── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', () => {
     if (navLinks && window.innerWidth <= 768) {
