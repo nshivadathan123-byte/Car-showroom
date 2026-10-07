@@ -29,6 +29,12 @@ html {
   scroll-padding-top: 80px;
 }
 
+html.scroll-locked,
+body.scroll-locked {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 /* ─── Vintage Screen-Printed Paper Overlay ─── */
 .paper-overlay {
   position: fixed;
@@ -356,10 +362,10 @@ button {
   overflow: hidden;
   background: var(--navy);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-left: 6px solid var(--black);
+  padding: 40px;
 }
 
 .hpg-stripes {
@@ -372,72 +378,17 @@ button {
   opacity: 0.15;
 }
 
-.hpg-checkers {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  background: repeating-conic-gradient(var(--cream) 0% 25%, var(--navy) 0% 50%) 0 0/24px 24px;
-  border-top: 4px solid var(--black);
+.hero-car-img {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  object-fit: contain;
+  position: relative;
   z-index: 2;
-}
-
-.hpg-circle {
-  position: relative;
-  width: 280px;
-  height: 280px;
-  background: var(--cream);
-  border: 8px solid var(--black);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 15px 15px 0 var(--black);
-  z-index: 3;
-  transform: rotate(-5deg);
-}
-
-.hpg-c1 {
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  border: 3px dashed var(--red);
-  border-radius: 50%;
-}
-
-.hpg-c2 {
-  position: absolute;
-  width: 78%;
-  height: 78%;
-  border: 2px solid var(--navy);
-  border-radius: 50%;
-}
-
-.hpg-number {
-  position: relative;
-  z-index: 4;
-  font-family: var(--font-display);
-  font-size: 9rem;
-  color: var(--navy);
-  line-height: 1;
-  text-shadow: 5px 5px 0 var(--red);
-}
-
-.hpg-badge {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  background: var(--gold);
-  color: var(--navy);
-  border: 4px solid var(--black);
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  padding: 8px 16px;
-  letter-spacing: .12em;
-  transform: rotate(5deg);
-  box-shadow: 6px 6px 0 var(--black);
-  z-index: 4;
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.75));
+  transform: scale(1.08);
+  user-select: none;
+  pointer-events: none;
 }
 
 
@@ -761,7 +712,7 @@ button {
 }
 
 .spin-viewport-wrapper {
-  background: #0f1c2b;
+  background: #f0e8d5;
   padding: 0;
   border: none;
   position: relative;
@@ -772,7 +723,7 @@ button {
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
-  background: #0f1c2b;
+  background: #f0e8d5;
   overflow: hidden;
   cursor: default;
   display: flex;
@@ -822,7 +773,13 @@ button {
   position: relative;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--navy);
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, border-color var(--tr), box-shadow var(--tr);
+  touch-action: none;
+}
+
+.spin-dial.dial-active {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red), 6px 6px 0 var(--navy);
 }
 
 .spin-dial::before {

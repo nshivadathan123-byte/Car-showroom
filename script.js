@@ -1,6 +1,26 @@
-/* ── script.js — CRETA EV ── */
+/* ─── 1. Hero Random Car Showcase ─── */
+const heroCarImg = document.getElementById('hero-car-img');
+if (heroCarImg) {
+  const heroColors = [
+    'ocean-blue',
+    'abyss-black',
+    'fiery-red',
+    'robust-emerald-matte',
+    'atlas-white',
+    'titan-grey',
+    'starry-night',
+    'knight-black-matte'
+  ];
+  const heroFrames = [11, 12, 13, 14];
 
-/* ─── 1. Gallery tabs ─── */
+  const randomColor = heroColors[Math.floor(Math.random() * heroColors.length)];
+  const randomFrame = heroFrames[Math.floor(Math.random() * heroFrames.length)];
+
+  heroCarImg.src = `https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/creta-electric/360/${randomColor}/pc/${randomColor}_${randomFrame}.png`;
+  heroCarImg.alt = `CRETA EV (${randomColor})`;
+}
+
+/* ─── 2. Gallery tabs ─── */
 const tabBtns = document.querySelectorAll('.tab-btn');
 const panels  = document.querySelectorAll('.gallery-panel');
 
@@ -14,7 +34,7 @@ tabBtns.forEach(btn => {
   });
 });
 
-/* ─── 2. Gallery image fallback ─── */
+/* ─── 3. Gallery image fallback ─── */
 const fallbackColors = {
   front: '#1a3a5c',
   side:  '#0d1b2a',
@@ -30,7 +50,7 @@ document.querySelectorAll('.gallery-single-wrap img').forEach(img => {
   });
 });
 
-/* ─── 3. 360° Spin System (36-Frame Hyundai Engine) ─── */
+/* ─── 4. 360° Spin System (36-Frame Hyundai Engine) ─── */
 const spinImg      = document.getElementById('spin-img');
 const spinDial     = document.getElementById('spin-dial');
 const dialPointer  = document.querySelector('.spin-dial-pointer');
@@ -98,54 +118,94 @@ indBtns.forEach(btn => {
   });
 });
 
-// Dial controls rotation drag
+// Dial controls rotation drag & scroll locking
 if (spinDial) {
   let dialDragging = false;
-  
-  spinDial.addEventListener('mousedown', (e) => {
-    dialDragging = true;
-    e.preventDefault();
-  });
-  
-  window.addEventListener('mousemove', (e) => {
-    if (!dialDragging) return;
+  let isDialLocked = false;
+
+  function lockScroll() {
+    isDialLocked = true;
+    spinDial.classList.add('dial-active');
+    document.documentElement.classList.add('scroll-locked');
+    document.body.classList.add('scroll-locked');
+  }
+
+  function unlockScroll() {
+    if (!isDialLocked) return;
+    isDialLocked = false;
+    spinDial.classList.remove('dial-active');
+    document.documentElement.classList.remove('scroll-locked');
+    document.body.classList.remove('scroll-locked');
+  }
+
+  function rotateDialToPoint(clientX, clientY) {
     const rect = spinDial.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-    let angleRad = Math.atan2(dy, dx);
-    let angleDeg = angleRad * (180 / Math.PI) + 90;
+    const dx = clientX - centerX;
+    const dy = clientY - centerY;
+    const angleRad = Math.atan2(dy, dx);
+    const angleDeg = angleRad * (180 / Math.PI) + 90;
     update360View(angleDeg);
+  }
+
+  // Mouse interactions
+  spinDial.addEventListener('mousedown', (e) => {
+    dialDragging = true;
+    lockScroll();
+    e.preventDefault();
   });
-  
+
+  window.addEventListener('mousemove', (e) => {
+    if (!dialDragging) return;
+    rotateDialToPoint(e.clientX, e.clientY);
+  });
+
   window.addEventListener('mouseup', () => {
     dialDragging = false;
   });
-  
+
+  // Touch interactions
   spinDial.addEventListener('touchstart', (e) => {
     dialDragging = true;
+    lockScroll();
   }, { passive: true });
-  
+
   spinDial.addEventListener('touchmove', (e) => {
     if (!dialDragging) return;
-    const rect = spinDial.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const dx = e.touches[0].clientX - centerX;
-    const dy = e.touches[0].clientY - centerY;
-    let angleRad = Math.atan2(dy, dx);
-    let angleDeg = angleRad * (180 / Math.PI) + 90;
-    update360View(angleDeg);
-  }, { passive: true });
-  
+    e.preventDefault();
+    if (e.touches && e.touches[0]) {
+      rotateDialToPoint(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: false });
+
   spinDial.addEventListener('touchend', () => {
     dialDragging = false;
+  });
+
+  // Lock entire window scrolling while dial is active
+  window.addEventListener('touchmove', (e) => {
+    if (isDialLocked) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Unlock scroll when pressing anything outside the dial
+  document.addEventListener('touchstart', (e) => {
+    if (!spinDial.contains(e.target)) {
+      unlockScroll();
+    }
+  }, { passive: true });
+
+  document.addEventListener('mousedown', (e) => {
+    if (!spinDial.contains(e.target)) {
+      unlockScroll();
+    }
   });
 }
 
 
-/* ─── 4. Hamburger menu (mobile) ─── */
+/* ─── 5. Hamburger menu (mobile) ─── */
 const hamburger = document.getElementById('nav-hamburger');
 const navLinks  = document.getElementById('nav-links');
 
@@ -155,7 +215,7 @@ if (hamburger && navLinks) {
   });
 }
 
-/* ─── 5. Anchor link handling (auto-closes mobile navbar) ─── */
+/* ─── 6. Anchor link handling (auto-closes mobile navbar) ─── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', () => {
     if (navLinks && window.innerWidth <= 768) {
